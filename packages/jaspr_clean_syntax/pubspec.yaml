@@ -1,6 +1,9 @@
 name: jaspr_clean_syntax
 description: Simplified Jasper Syntax
-version: 0.1.0+1
+version: 0.1.0+2
+homepage: https://www.flutterplaza.com/
+repository: https://github.com/FlutterPlaza/jasprfire/tree/main/packages/jaspr_clean_syntax
+publish_to: 'none'
 
 
 environment:

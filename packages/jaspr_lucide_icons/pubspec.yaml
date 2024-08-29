@@ -1,0 +1,17 @@
+name: jaspr_lucide_icons
+description: Lucide Icons for Jaspr
+version: 0.1.0+1
+repository: https://github.com/flutterplaza/jasprfire/jaspr_lucide_icons
+homepage: https://www.flutterplaza.com
+
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  jaspr: ^0.15.0
+
+dev_dependencies:
+  mocktail: ^1.0.4
+  test: ^1.25.7
+  very_good_analysis: ^6.0.0

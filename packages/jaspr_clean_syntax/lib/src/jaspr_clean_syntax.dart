@@ -1,26 +1,64 @@
 import 'package:jaspr/jaspr.dart';
 
-/// Represents an article component in the DOM.
+part 'content.dart';
+part 'form.dart';
+// part 'medias.dart';
+part 'others.dart';
+part 'svg.dart';
+
+
+// Media components.
+
+/// The &lt;audio&gt; HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the &lt;source&gt; element: the browser will choose the most suitable one. It can also be the destination for streamed media, using a MediaStream.
 ///
-/// An article component is used to structure content in a web page.
-/// It can contain other components as its children.
+/// - [autoplay]: A Boolean attribute: if specified, the audio will automatically begin playback as soon as it can do so, without waiting for the entire audio file to finish downloading.
+/// - [controls]: If this attribute is present, the browser will offer controls to allow the user to control audio playback, including volume, seeking, and pause/resume playback.
+/// - [crossOrigin]: Indicates whether to use CORS to fetch the related audio file.
+/// - [loop]: If specified, the audio player will automatically seek back to the start upon reaching the end of the audio.
+/// - [muted]: Indicates whether the audio will be initially silenced. Its default value is false.
+/// - [preload]: Provides a hint to the browser about what the author thinks will lead to the best user experience.
+/// - [src]: The URL of the audio to embed. This is subject to HTTP access controls. This is optional; you may instead use the &lt;source&gt; element within the audio block to specify the audio to embed.
+
+/// A class representing an HTML `<audio>` element.
 ///
+/// The `Audio` class is a specialized `DomComponent` that represents an HTML `<audio>` element.
+/// 
+/// - [autoplay]: If true, the audio will automatically start playing as soon as it can do so without stopping.
+/// - [controls]: If true, the browser will offer controls to allow the user to control audio playback.
+/// - [crossOrigin]: Indicates whether the browser should send credentials (cookies, authorization headers, etc.) for cross-origin requests.
+/// - [loop]: If true, the audio will start over again, every time it is finished.
+/// - [muted]: If true, the audio output will be muted.
+/// - [preload]: Provides a hint to the browser about what the author thinks will lead to the best user experience.
+/// - [src]: The URL of the audio to embed.
+/// 
 /// Example usage:
 /// ```dart
-/// Article(
+/// Audio(
 ///   [
-///     Text('Hello, world!'),
-///     Image(url: 'https://example.com/image.jpg'),
+///     Text('Your browser does not support the audio element.'),
 ///   ],
-///   id: 'article1',
-///   classes: 'article',
-///   styles: Styles.background(color: Colors.black),
-///   attributes: {'data-type': 'news'},
-///   events: {'onClick': () => print('Article clicked')},
+///   src: 'https://example.com/audio.mp3',
+///   autoplay: true,
+///   controls: true,
+///   loop: true,
+///   muted: false,
+///   preload: Preload.auto,
+///   id: 'audio1',
+///   classes: 'audio-class',
+///   styles: Styles.color(Colors.blue),
+///   attributes: {'data-type': 'audio'},
+///   events: {'onPlay': () => print('Audio playing')},
 /// )
 /// ```
-class Article extends DomComponent {
+class Audio extends DomComponent {
   final List<Component> children;
+  final bool? autoplay;
+  final bool? controls;
+  final CrossOrigin? crossOrigin;
+  final bool? loop;
+  final bool? muted;
+  final Preload? preload;
+  final String? src;
   final Key? key;
   final String? id;
   final String? classes;
@@ -28,8 +66,15 @@ class Article extends DomComponent {
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
 
-  Article(
+  Audio(
     this.children, {
+    this.autoplay,
+    this.controls,
+    this.crossOrigin,
+    this.loop,
+    this.muted,
+    this.preload,
+    this.src,
     this.key,
     this.id,
     this.classes,
@@ -37,769 +82,63 @@ class Article extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'article',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// A class representing an HTML `<aside>` element.
-///
-/// The `Aside` class is a specialized `DomComponent` that represents an HTML `<aside>` element.
-/// It can contain a list of child components and various attributes, styles, and events.
-///
-/// Example usage:
-/// ```dart
-/// Aside(
-///   [
-///     Text('Hello, world!'),
-///     Image(url: 'https://example.com/image.jpg'),
-///   ],
-///   id: 'aside1',
-///   classes: 'aside',
-///   styles: Styles.background(color: Colors.black),
-///   attributes: {'data-type': 'sidebar'},
-///   events: {'onClick': () => print('Aside clicked')},
-/// )
-/// ```
-class Aside extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Aside(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'aside',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// A class representing an HTML `<body>` element.
-///
-/// The `Body` class is a specialized `DomComponent` that represents an HTML `<body>` element.
-/// It can contain a list of child components and various attributes, styles, and events.
-///
-/// Example usage:
-/// ```dart
-/// Body(
-///   [
-///     Text('Hello, world!'),
-///     Image(url: 'https://example.com/image.jpg'),
-///   ],
-///   id: 'body1',
-///   classes: 'body',
-///   styles: Styles.background(color: Colors.black),
-///   attributes: {'data-type': 'main'},
-///   events: {'onClick': () => print('Body clicked')},
-/// )
-/// ```
-class Body extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Body(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'body',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// A class representing an HTML `<footer>` element.
-///
-/// The `Footer` class is a specialized `DomComponent` that represents an HTML `<footer>` element.
-/// It can contain a list of child components and various attributes, styles, and events.
-///
-/// Example usage:
-/// ```dart
-/// Footer(
-///   [
-///     Text('Hello, world!'),
-///     Image(url: 'https://example.com/image.jpg'),
-///   ],
-///   id: 'footer1',
-///   classes: 'footer',
-///   styles: Styles.background(color: Colors.black),
-///   attributes: {'data-type': 'footer'},
-///   events: {'onClick': () => print('Footer clicked')},
-/// )
-/// ```
-class Footer extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-  Footer(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'footer',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// A class representing an HTML `<head>` element.
-///
-/// The `Head` class is a specialized `DomComponent` that represents an HTML `<head>` element.
-/// It can contain a list of child components and various attributes, styles, and events.
-///
-/// Example usage:
-/// ```dart
-/// Head(
-///   [
-///     Text('Hello, world!'),
-///     Image(url: 'https://example.com/image.jpg'),
-///   ],
-///   id: 'head1',
-///   classes: 'head',
-///   styles: Styles.background(color: Colors.black),
-///   attributes: {'data-type': 'header'},
-///   events: {'onClick': () => print('Head clicked')},
-/// )
-/// ```
-class Head extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Head(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'head',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<header>` HTML element represents introductory content, typically a group of introductory or navigational aids.
-/// It may contain some heading elements but also a logo, a search form, an author name, and other elements.
-///
-/// Example usage:
-/// ```dart
-/// Header(
-///   [
-///     Text('Welcome to my website!'),
-///     Image(url: 'https://example.com/logo.jpg'),
-///   ],
-///   id: 'header1',
-///   classes: 'header',
-///   styles: Styles.background(color: Colors.blue),
-///   attributes: {'data-role': 'banner'},
-///   events: {'onClick': () => print('Header clicked')},
-/// )
-/// ```
-class Header extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Header(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'header',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<html>` HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element.
-/// All other elements must be descendants of this element.
-///
-/// Example usage:
-/// ```dart
-/// Html(
-///   [
-///     Head([Title('My Website')]),
-///     Body([Text('Hello, world!')]),
-///   ],
-///   id: 'html1',
-///   classes: 'html',
-///   styles: Styles.background(color: Colors.white),
-///   attributes: {'lang': 'en'},
-///   events: {'onLoad': () => print('HTML loaded')},
-/// )
-/// ```
-class Html extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Html(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'html',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<section>` HTML element represents a generic standalone section of a document, which doesn't have a more specific semantic element to represent it.
-/// Sections should always have a heading, with very few exceptions.
-///
-/// Example usage:
-/// ```dart
-/// Section(
-///   [
-///     H1([Text('Section Title')]),
-///     Text('This is a section of the document.'),
-///   ],
-///   id: 'section1',
-///   classes: 'section',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-section': 'main'},
-///   events: {'onClick': () => print('Section clicked')},
-/// )
-/// ```
-class Section extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Section(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'section',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H1(
-///   [
-///     Text('Main Heading'),
-///   ],
-///   id: 'heading1',
-///   classes: 'main-heading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '1'},
-///   events: {'onClick': () => print('Heading clicked')},
-/// )
-/// ```
-class H1 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H1(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h1',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H2(
-///   [
-///     Text('Subheading Level 2'),
-///   ],
-///   id: 'heading2',
-///   classes: 'subheading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '2'},
-///   events: {'onClick': () => print('H2 clicked')},
-/// )
-/// ```
-class H2 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H2(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h2',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H3(
-///   [
-///     Text('Subheading Level 3'),
-///   ],
-///   id: 'heading3',
-///   classes: 'subheading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '3'},
-///   events: {'onClick': () => print('H3 clicked')},
-/// )
-/// ```
-class H3 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H3(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h3',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H4(
-///   [
-///     Text('Subheading Level 4'),
-///   ],
-///   id: 'heading4',
-///   classes: 'subheading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '4'},
-///   events: {'onClick': () => print('H4 clicked')},
-/// )
-/// ```
-class H4 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H4(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h4',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H5(
-///   [
-///     Text('Subheading Level 5'),
-///   ],
-///   id: 'heading5',
-///   classes: 'subheading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '5'},
-///   events: {'onClick': () => print('H5 clicked')},
-/// )
-/// ```
-class H5 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H5(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h5',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<h1>` to `<h6>` HTML elements represent six levels of section headings. `<h1>` is the highest section level and `<h6>` is the lowest.
-///
-/// Example usage:
-/// ```dart
-/// H6(
-///   [
-///     Text('Subheading Level 6'),
-///   ],
-///   id: 'heading6',
-///   classes: 'subheading',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-level': '6'},
-///   events: {'onClick': () => print('H6 clicked')},
-/// )
-/// ```
-class H6 extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  H6(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'h6',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<main>` HTML element represents the primary content of a document, distinct from content that is repeated across multiple pages such as site headers, footers, and navigation bars.
-///
-/// Example usage:
-/// ```dart
-/// Main(
-///   [
-///     Text('This is the main content of the page.'),
-///   ],
-///   id: 'main1',
-///   classes: 'main-content',
-///   styles: Styles.background(color: Colors.white),
-///   attributes: {'role': 'main'},
-///   events: {'onLoad': () => print('Main content loaded')},
-/// )
-/// ```
-class Main extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Main(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'main',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<nav>` HTML element represents a section of a page whose purpose is to provide navigation links, either within the current document or to other documents. Common examples of navigation sections are menus, tables of contents, and indexes.
-///
-/// Example usage:
-/// ```dart
-/// Nav(
-///   [
-///     Text('Home'),
-///     Text('About'),
-///     Text('Contact'),
-///   ],
-///   id: 'nav1',
-///   classes: 'navigation',
-///   styles: Styles.background(color: Colors.blue),
-///   attributes: {'role': 'navigation'},
-///   events: {'onClick': () => print('Nav clicked')},
-/// )
-/// ```
-class Nav extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Nav(
-    this.children, {
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'nav',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<blockquote>` HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation. A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the `<cite>` element.
-///
-/// - [cite]: A URL that designates a source document or message for the information quoted. This attribute is intended to point to information explaining the context or the reference for the quote.
-///
-/// Example usage:
-/// ```dart
-/// Blockquote(
-///   [
-///     Text('This is a quote.'),
-///   ],
-///   cite: 'https://example.com/source',
-///   id: 'blockquote1',
-///   classes: 'quote',
-///   styles: Styles.text(fontSize: 16.rem),
-///   attributes: {'data-type': 'quote'},
-///   events: {'onClick': () => print('Blockquote clicked')},
-/// )
-/// ```
-class Blockquote extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-  final String? cite;
-
-  Blockquote(
-    this.children, {
-    this.cite,
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'blockquote',
+          tag: 'audio',
           children: children,
           key: key,
           id: id,
           classes: classes,
           styles: styles,
           attributes: {
-            ...attributes ?? {},
-            if (cite != null) 'cite': cite,
+            ...?attributes,
+            if (autoplay == true) 'autoplay': '',
+            if (controls == true) 'controls': '',
+            if (crossOrigin != null) 'crossorigin': crossOrigin.value,
+            if (loop == true) 'loop': '',
+            if (muted == true) 'muted': '',
+            if (preload != null) 'preload': preload.value,
+            if (src != null) 'src': src,
           },
           events: events,
         );
 }
 
-/// The `<div>` HTML element is the generic container for flow content. It has no effect on the content or layout until styled in some way using CSS (e.g. styling is directly applied to it, or some kind of layout model like Flexbox is applied to its parent element).
+/// A class representing an HTML `<img>` element.
 ///
+/// The `Img` class is a specialized `DomComponent` that represents an HTML `<img>` element.
+/// 
+/// - [alt]: Defines an alternative text description of the image.
+/// - [crossOrigin]: Indicates if the fetching of the image must be done using a CORS request.
+/// - [width]: The intrinsic width of the image in pixels.
+/// - [height]: The intrinsic height of the image, in pixels.
+/// - [loading]: Indicates how the browser should load the image.
+/// - [src]: The image URL.
+/// - [referrerPolicy]: Indicates which referrer to send when fetching the resource.
+/// 
 /// Example usage:
 /// ```dart
-/// Div(
-///   [
-///     Text('This is a div.'),
-///   ],
-///   id: 'div1',
-///   classes: 'container',
-///   styles: Styles.box(padding: EdgeInsets.all(10.rem)),
-///   attributes: {'data-role': 'container'},
-///   events: {'onClick': () => print('Div clicked')},
+/// Img(
+///   src: 'https://example.com/image.jpg',
+///   alt: 'Example image',
+///   width: 600,
+///   height: 400,
+///   loading: MediaLoading.lazy,
+///   crossOrigin: CrossOrigin.anonymous,
+///   referrerPolicy: ReferrerPolicy.noReferrer,
+///   id: 'image1',
+///   classes: 'image-class',
+///   styles: Styles.background(Colors.white),
+///   attributes: {'data-type': 'image'},
+///   events: {'onLoad': () => print('Image loaded')},
 /// )
 /// ```
-class Div extends DomComponent {
-  final List<Component> children;
+class Img extends DomComponent {
+  final String? alt;
+  final CrossOrigin? crossOrigin;
+  final int? width;
+  final int? height;
+  final MediaLoading? loading;
+  final String src;
+  final ReferrerPolicy? referrerPolicy;
   final Key? key;
   final String? id;
   final String? classes;
@@ -807,8 +146,14 @@ class Div extends DomComponent {
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
 
-  Div(
-    this.children, {
+  Img({
+    this.alt,
+    this.crossOrigin,
+    this.width,
+    this.height,
+    this.loading,
+    required this.src,
+    this.referrerPolicy,
     this.key,
     this.id,
     this.classes,
@@ -816,36 +161,68 @@ class Div extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'div',
-          children: children,
+          tag: 'img',
           key: key,
           id: id,
           classes: classes,
           styles: styles,
-          attributes: attributes,
+          attributes: {
+            ...?attributes,
+            if (alt != null) 'alt': alt,
+            if (crossOrigin != null) 'crossorigin': crossOrigin.value,
+            if (width != null) 'width': '$width',
+            if (height != null) 'height': '$height',
+            if (loading != null) 'loading': loading.value,
+            'src': src,
+            if (referrerPolicy != null) 'referrerpolicy': referrerPolicy.value,
+          },
           events: events,
         );
 }
 
-/// The `<ul>` HTML element represents an unordered list of items, typically rendered as a bulleted list.
+/// A class representing an HTML `<video>` element.
 ///
+/// The `Video` class is a specialized `DomComponent` that represents an HTML `<video>` element.
+/// 
+/// - [autoplay]: If true, the video will automatically start playing as soon as it can do so without stopping.
+/// - [controls]: If true, the browser will offer controls to allow the user to control video playback.
+/// - [crossOrigin]: Indicates whether the browser should send credentials (cookies, authorization headers, etc.) for cross-origin requests.
+/// - [loop]: If true, the video will start over again, every time it is finished.
+/// - [muted]: If true, the video output will be muted.
+/// - [preload]: Provides a hint to the browser about what the author thinks will lead to the best user experience.
+/// - [src]: The URL of the video to embed.
+/// - [poster]: A URL for an image to be shown while the video is downloading or until the user hits the play button.
+/// 
 /// Example usage:
 /// ```dart
-/// Ul(
+/// Video(
 ///   [
-///     Li([Text('Item 1')]),
-///     Li([Text('Item 2')]),
-///     Li([Text('Item 3')]),
+///     Text('Your browser does not support the video element.'),
 ///   ],
-///   id: 'ul1',
-///   classes: 'unordered-list',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'list'},
-///   events: {'onClick': () => print('Ul clicked')},
+///   src: 'https://example.com/video.mp4',
+///   poster: 'https://example.com/poster.jpg',
+///   autoplay: true,
+///   controls: true,
+///   loop: true,
+///   muted: false,
+///   preload: Preload.auto,
+///   id: 'video1',
+///   classes: 'video-class',
+///   styles: Styles.color(Colors.blue),
+///   attributes: {'data-type': 'video'},
+///   events: {'onPlay': () => print('Video playing')},
 /// )
 /// ```
-class Ul extends DomComponent {
+class Video extends DomComponent {
   final List<Component> children;
+  final bool? autoplay;
+  final bool? controls;
+  final CrossOrigin? crossOrigin;
+  final bool? loop;
+  final bool? muted;
+  final Preload? preload;
+  final String? src;
+  final String? poster;
   final Key? key;
   final String? id;
   final String? classes;
@@ -853,8 +230,16 @@ class Ul extends DomComponent {
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
 
-  Ul(
+  Video(
     this.children, {
+    this.autoplay,
+    this.controls,
+    this.crossOrigin,
+    this.loop,
+    this.muted,
+    this.preload,
+    this.src,
+    this.poster,
     this.key,
     this.id,
     this.classes,
@@ -862,58 +247,66 @@ class Ul extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'ul',
+          tag: 'video',
           children: children,
           key: key,
           id: id,
           classes: classes,
           styles: styles,
-          attributes: attributes,
+          attributes: {
+            ...?attributes,
+            if (autoplay == true) 'autoplay': '',
+            if (controls == true) 'controls': '',
+            if (crossOrigin != null) 'crossorigin': crossOrigin.value,
+            if (loop == true) 'loop': '',
+            if (muted == true) 'muted': '',
+            if (preload != null) 'preload': preload.value,
+            if (src != null) 'src': src,
+            if (poster != null) 'poster': poster,
+          },
           events: events,
         );
 }
-
-/// The `<ol>` HTML element represents an ordered list of items — typically rendered as a numbered list.
+/// A class representing an HTML `<embed>` element.
 ///
-/// - [reversed]: This Boolean attribute specifies that the list's items are in reverse order. Items will be numbered from high to low.
-/// - [start]: An integer to start counting from for the list items. Always an Arabic numeral (1, 2, 3, etc.), even when the numbering type is letters or Roman numerals. For example, to start numbering elements from the letter "d" or the Roman numeral "iv," use start="4".
-/// - [type]: Sets the numbering type. The specified type is used for the entire list unless a different type attribute is used on an enclosed `<li>` element.
-///
+/// The `Embed` class is a specialized `DomComponent` that represents an HTML `<embed>` element.
+/// 
+/// - [src]: The URL of the resource being embedded.
+/// - [type]: The MIME type to use to select the plug-in to instantiate.
+/// - [width]: The displayed width of the resource, in CSS pixels.
+/// - [height]: The displayed height of the resource, in CSS pixels.
+/// 
 /// Example usage:
 /// ```dart
-/// Ol(
-///   [
-///     Li([Text('First item')]),
-///     Li([Text('Second item')]),
-///     Li([Text('Third item')]),
-///   ],
-///   reversed: false,
-///   start: 1,
-///   type: NumberingType.decimal,
-///   id: 'ol1',
-///   classes: 'ordered-list',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'list'},
-///   events: {'onClick': () => print('Ol clicked')},
+/// Embed(
+///   src: 'https://example.com/resource',
+///   type: 'application/pdf',
+///   width: 600,
+///   height: 400,
+///   id: 'embed1',
+///   classes: 'embed-class',
+///   styles: Styles.background(Colors.white),
+///   attributes: {'data-type': 'embed'},
+///   events: {'onLoad': () => print('Embed loaded')},
 /// )
 /// ```
-class Ol extends DomComponent {
-  final List<Component> children;
+class Embed extends DomComponent {
+  final String src;
+  final String? type;
+  final int? width;
+  final int? height;
   final Key? key;
   final String? id;
   final String? classes;
   final Styles? styles;
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
-  final bool? reversed;
-  final int? start;
-  final NumberingType? type;
 
-  Ol(
-    this.children, {
-    this.reversed,
-    this.start,
+  Embed({
+    required this.src,
     this.type,
+    this.width,
+    this.height,
     this.key,
     this.id,
     this.classes,
@@ -921,130 +314,347 @@ class Ol extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'ol',
+          tag: 'embed',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: {
+            ...?attributes,
+            'src': src,
+            if (type != null) 'type': type,
+            if (width != null) 'width': '$width',
+            if (height != null) 'height': '$height',
+          },
+          events: events,
+        );
+}
+/// A class representing an HTML `<iframe>` element.
+///
+/// The `Iframe` class is a specialized `DomComponent` that represents an HTML `<iframe>` element.
+/// 
+/// - [src]: The URL of the page to embed. Use a value of about:blank to embed an empty page that conforms to the same-origin policy. Also note that programmatically removing an &lt;iframe&gt;'s src attribute (e.g. via Element.removeAttribute()) causes about:blank to be loaded in the frame in Firefox (from version 65), Chromium-based browsers, and Safari/iOS.
+/// - [allow]: Specifies a feature policy for the &lt;iframe&gt;. The policy defines what features are available to the &lt;iframe&gt; based on the origin of the request (e.g. access to the microphone, camera, battery, web-share API, etc.).
+/// - [csp]: A Content Security Policy enforced for the embedded resource.
+/// - [loading]: Indicates how the browser should load the iframe.
+/// - [name]: A targetable name for the embedded browsing context. This can be used in the target attribute of the &lt;a&gt;, &lt;form&gt;, or &lt;base&gt; elements; the formtarget attribute of the &lt;input&gt; or &lt;button&gt; elements; or the windowName parameter in the window.open() method.
+/// - [sandbox]: Applies extra restrictions to the content in the frame. The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions.
+/// - [referrerPolicy]: Indicates which referrer to send when fetching the frame's resource.
+/// - [width]: The width of the frame in CSS pixels. Default is 300.
+/// - [height]: The height of the frame in CSS pixels. Default is 150.
+/// 
+/// Example usage:
+/// ```dart
+/// Iframe(
+///   [
+///     Text('Your browser does not support the iframe element.'),
+///   ],
+///   src: 'https://example.com',
+///   allow: 'fullscreen',
+///   csp: 'default-src \'self\'',
+///   loading: MediaLoading.lazy,
+///   name: 'iframe1',
+///   sandbox: 'allow-scripts',
+///   referrerPolicy: ReferrerPolicy.noReferrer,
+///   width: 600,
+///   height: 400,
+///   id: 'iframe1',
+///   classes: 'iframe-class',
+///   styles: Styles.background(Colors.white),
+///   attributes: {'data-type': 'iframe'},
+///   events: {'onLoad': () => print('Iframe loaded')},
+/// )
+/// ```
+class Iframe extends DomComponent {
+  final List<Component> children;
+  final String src;
+  final String? allow;
+  final String? csp;
+  final MediaLoading? loading;
+  final String? name;
+  final String? sandbox;
+  final ReferrerPolicy? referrerPolicy;
+  final int? width;
+  final int? height;
+  final Key? key;
+  final String? id;
+  final String? classes;
+  final Styles? styles;
+  final Map<String, String>? attributes;
+  final Map<String, EventCallback>? events;
+
+  Iframe(
+    this.children, {
+    required this.src,
+    this.allow,
+    this.csp,
+    this.loading,
+    this.name,
+    this.sandbox,
+    this.referrerPolicy,
+    this.width,
+    this.height,
+    this.key,
+    this.id,
+    this.classes,
+    this.styles,
+    this.attributes,
+    this.events,
+  }) : super(
+          tag: 'iframe',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: {
+            ...?attributes,
+            'src': src,
+            if (allow != null) 'allow': allow,
+            if (csp != null) 'csp': csp,
+            if (loading != null) 'loading': loading.value,
+            if (name != null) 'name': name,
+            if (sandbox != null) 'sandbox': sandbox,
+            if (referrerPolicy != null) 'referrerpolicy': referrerPolicy.value,
+            if (width != null) 'width': '$width',
+            if (height != null) 'height': '$height',
+          },
+          events: events,
+          children: children,
+        );
+}
+/// A class representing an HTML `<object>` element.
+///
+/// The `ObjectElt` class is a specialized `DomComponent` that represents an HTML `<object>` element.
+/// 
+/// - [data]: The address of the resource as a valid URL. At least one of data and type must be defined.
+/// - [name]: The name of valid browsing context (HTML5).
+/// - [type]: The content type of the resource specified by data. At least one of data and type must be defined.
+/// - [width]: The width of the displayed resource in CSS pixels.
+/// - [height]: The height of the displayed resource in CSS pixels.
+/// 
+/// Example usage:
+/// ```dart
+/// ObjectElt(
+///   [
+///     Text('Your browser does not support the object element.'),
+///   ],
+///   data: 'https://example.com/resource',
+///   type: 'application/pdf',
+///   width: 600,
+///   height: 400,
+///   id: 'object1',
+///   classes: 'object-class',
+///   styles: Styles.background(Colors.white),
+///   attributes: {'data-type': 'object'},
+///   events: {'onLoad': () => print('Object loaded')},
+/// )
+/// ```
+class ObjectElt extends DomComponent {
+  final List<Component> children;
+  final String? data;
+  final String? name;
+  final String? type;
+  final int? width;
+  final int? height;
+  final Key? key;
+  final String? id;
+  final String? classes;
+  final Styles? styles;
+  final Map<String, String>? attributes;
+  final Map<String, EventCallback>? events;
+
+  ObjectElt(
+    this.children, {
+    this.data,
+    this.name,
+    this.type,
+    this.width,
+    this.height,
+    this.key,
+    this.id,
+    this.classes,
+    this.styles,
+    this.attributes,
+    this.events,
+  }) : super(
+          tag: 'object',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: {
+            ...?attributes,
+            if (data != null) 'data': data,
+            if (name != null) 'name': name,
+            if (type != null) 'type': type,
+            if (width != null) 'width': '$width',
+            if (height != null) 'height': '$height',
+          },
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<source>` element.
+///
+/// The `Source` class is a specialized `DomComponent` that represents an HTML `<source>` element.
+/// 
+/// - [type]: The MIME media type of the resource, optionally with a codecs parameter.
+/// - [src]: Address of the media resource.
+/// 
+/// Example usage:
+/// ```dart
+/// Source(
+///   type: 'video/mp4',
+///   src: 'https://example.com/video.mp4',
+///   id: 'source1',
+///   classes: 'source-class',
+///   styles: Styles.background(Colors.white),
+///   attributes: {'data-type': 'source'},
+///   events: {'onLoad': () => print('Source loaded')},
+/// )
+/// ```
+class Source extends DomComponent {
+  final String? type;
+  final String? src;
+  final Key? key;
+  final String? id;
+  final String? classes;
+  final Styles? styles;
+  final Map<String, String>? attributes;
+  final Map<String, EventCallback>? events;
+
+  Source({
+    this.type,
+    this.src,
+    this.key,
+    this.id,
+    this.classes,
+    this.styles,
+    this.attributes,
+    this.events,
+  }) : super(
+          tag: 'source',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: {
+            ...?attributes,
+            if (type != null) 'type': type,
+            if (src != null) 'src': src,
+          },
+          events: events,
+        );
+}
+
+/// Text components.
+
+/// A class representing an HTML `<a>` element.
+///
+/// The `A` class is a specialized `DomComponent` that represents an HTML `<a>` element.
+/// Content within each &lt;a&gt; should indicate the link's destination. If the href attribute is present, pressing the enter key while focused on the &lt;a&gt; element will activate it.
+///
+/// - [download]: Causes the browser to treat the linked URL as a download. Can be used with or without a value:
+///
+///   Without a value, the browser will suggest a filename/extension, generated from various sources:
+///   The Content-Disposition HTTP header
+///   The final segment in the URL path
+///   The media type (from the Content-Type header, the start of a data: URL, or Blob.type for a blob: URL)
+///   Defining a value suggests it as the filename. / and \ characters are converted to underscores (_). Filesystems may forbid other characters in filenames, so browsers will adjust the suggested name if necessary.
+/// - [href]: The URL that the hyperlink points to. Links are not restricted to HTTP-based URLs — they can use any URL scheme supported by browsers:
+///
+///   Sections of a page with fragment URLs
+///   Pieces of media files with media fragments
+///   Telephone numbers with tel: URLs
+///   Email addresses with mailto: URLs
+///   While web browsers may not support other URL schemes, web sites can with registerProtocolHandler()
+/// - [target]: Where to display the linked URL, as the name for a browsing context (a tab, window, or &lt;iframe&gt;).
+/// - [type]: Hints at the linked URL's format with a MIME type. No built-in functionality.
+/// - [referrerPolicy]: How much of the referrer to send when following the link.
+/// Example usage:
+/// ```dart
+/// A(
+///   [
+///     Text('Click here'),
+///   ],
+///   href: 'https://example.com',
+///   download: 'example.txt',
+///   target: Target.blank,
+///   type: 'text/plain',
+///   referrerPolicy: ReferrerPolicy.noReferrer,
+///   id: 'link1',
+///   classes: 'link',
+///   styles: Styles.color(Colors.blue),
+///   attributes: {'data-type': 'link'},
+///   events: {'onClick': () => print('Link clicked')},
+/// )
+/// ```
+class A extends DomComponent {
+  final List<Component> children;
+  final String? download;
+  final String href;
+  final Target? target;
+  final String? type;
+  final ReferrerPolicy? referrerPolicy;
+  final Key? key;
+  final String? id;
+  final String? classes;
+  final Styles? styles;
+  final Map<String, String>? attributes;
+  final Map<String, EventCallback>? events;
+
+  A(
+    this.children, {
+    this.download,
+    required this.href,
+    this.target,
+    this.type,
+    this.referrerPolicy,
+    this.key,
+    this.id,
+    this.classes,
+    this.styles,
+    this.attributes,
+    this.events,
+  }) : super(
+          tag: 'a',
           children: children,
           key: key,
           id: id,
           classes: classes,
           styles: styles,
           attributes: {
-            ...attributes ?? {},
-            if (reversed == true) 'reversed': '',
-            if (start != null) 'start': '$start',
-            if (type != null) 'type': type.value,
+            ...?attributes,
+            if (download != null) 'download': download,
+            'href': href,
+            if (target != null) 'target': target.value,
+            if (type != null) 'type': type,
+            if (referrerPolicy != null) 'referrerpolicy': referrerPolicy.value,
           },
           events: events,
         );
 }
 
-/// The `<li>` HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list (`<ol>`), an unordered list (`<ul>`), or a menu (`<menu>`). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter.
+/// A class representing an HTML `<b>` element.
 ///
-/// - [value]: This integer attribute indicates the current ordinal value of the list item as defined by the `<ol>` element. The only allowed value for this attribute is a number, even if the list is displayed with Roman numerals or letters. List items that follow this one continue numbering from the value set. The value attribute has no meaning for unordered lists (`<ul>`) or for menus (`<menu>`).
+/// The `B` class is a specialized `DomComponent` that represents an HTML `<b>` element.
+/// It can contain a list of child components and various attributes, styles, and events.
 ///
 /// Example usage:
 /// ```dart
-/// Li(
+/// B(
 ///   [
-///     Text('List item'),
+///     Text('Important text'),
 ///   ],
-///   value: 1,
-///   id: 'li1',
-///   classes: 'list-item',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'item'},
-///   events: {'onClick': () => print('Li clicked')},
+///   id: 'bold1',
+///   classes: 'bold',
+///   styles: Styles.fontWeight(FontWeight.bold),
+///   attributes: {'data-type': 'bold'},
+///   events: {'onClick': () => print('Bold text clicked')},
 /// )
 /// ```
-class Li extends DomComponent {
-  final List<Component> children;
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-  final int? value;
-
-  Li(
-    this.children, {
-    this.value,
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'li',
-          children: children,
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: {
-            ...attributes ?? {},
-            if (value != null) 'value': '$value',
-          },
-          events: events,
-        );
-}
-
-/// The `<hr>` HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section.
-///
-/// Example usage:
-/// ```dart
-/// Hr(
-///   id: 'hr1',
-///   classes: 'thematic-break',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'separator'},
-///   events: {'onClick': () => print('Hr clicked')},
-/// )
-/// ```
-class Hr extends DomComponent {
-  final List<Component> children = [];
-  final Key? key;
-  final String? id;
-  final String? classes;
-  final Styles? styles;
-  final Map<String, String>? attributes;
-  final Map<String, EventCallback>? events;
-
-  Hr({
-    this.key,
-    this.id,
-    this.classes,
-    this.styles,
-    this.attributes,
-    this.events,
-  }) : super(
-          tag: 'hr',
-          children: [],
-          key: key,
-          id: id,
-          classes: classes,
-          styles: styles,
-          attributes: attributes,
-          events: events,
-        );
-}
-
-/// The `<p>` HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields.
-///
-/// Example usage:
-/// ```dart
-/// P(
-///   [
-///     Text('This is a paragraph.'),
-///   ],
-///   id: 'p1',
-///   classes: 'paragraph',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'text'},
-///   events: {'onClick': () => print('P clicked')},
-/// )
-/// ```
-class P extends DomComponent {
+class B extends DomComponent {
   final List<Component> children;
   final Key? key;
   final String? id;
@@ -1053,7 +663,7 @@ class P extends DomComponent {
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
 
-  P(
+  B(
     this.children, {
     this.key,
     this.id,
@@ -1062,7 +672,7 @@ class P extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'p',
+          tag: 'b',
           children: children,
           key: key,
           id: id,
@@ -1073,23 +683,22 @@ class P extends DomComponent {
         );
 }
 
-/// The `<pre>` HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced, font. Whitespace inside this element is displayed as written.
+/// A class representing an HTML `<br>` element.
+///
+/// The `Br` class is a specialized `DomComponent` that represents an HTML `<br>` element.
+/// It can contain various attributes, styles, and events.
 ///
 /// Example usage:
 /// ```dart
-/// Pre(
-///   [
-///     Text('Preformatted text'),
-///   ],
-///   id: 'pre1',
-///   classes: 'preformatted',
-///   styles: Styles.background(color: Colors.grey),
-///   attributes: {'data-role': 'code'},
-///   events: {'onClick': () => print('Pre clicked')},
+/// LineBreak(
+///   id: 'linebreak1',
+///   classes: 'linebreak',
+///   styles: Styles.marginTop(10),
+///   attributes: {'data-type': 'linebreak'},
+///   events: {'onClick': () => print('Line break clicked')},
 /// )
 /// ```
-class Pre extends DomComponent {
-  final List<Component> children;
+class Br extends DomComponent {
   final Key? key;
   final String? id;
   final String? classes;
@@ -1097,8 +706,7 @@ class Pre extends DomComponent {
   final Map<String, String>? attributes;
   final Map<String, EventCallback>? events;
 
-  Pre(
-    this.children, {
+  Br({
     this.key,
     this.id,
     this.classes,
@@ -1106,202 +714,376 @@ class Pre extends DomComponent {
     this.attributes,
     this.events,
   }) : super(
-          tag: 'pre',
-          children: children,
+          tag: 'br',
           key: key,
           id: id,
           classes: classes,
           styles: styles,
           attributes: attributes,
           events: events,
+        );
+}
+
+/// A class representing an HTML `<code>` element.
+class Code extends DomComponent {
+  Code(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'code',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<em>` element.
+class Em extends DomComponent {
+  Em(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'em',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<i>` element.
+class I extends DomComponent {
+  I(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'i',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<s>` element.
+class S extends DomComponent {
+  S(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 's',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<small>` element.
+class Small extends DomComponent {
+  Small(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'small',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<span>` element.
+class Span extends DomComponent {
+  Span(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'span',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<strong>` element.
+class Strong extends DomComponent {
+  Strong(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'strong',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
+        );
+}
+
+/// A class representing an HTML `<u>` element.
+class U extends DomComponent {
+  U(
+    List<Component> children, {
+    Key? key,
+    String? id,
+    String? classes,
+    Styles? styles,
+    Map<String, String>? attributes,
+    Map<String, EventCallback>? events,
+  }) : super(
+          tag: 'u',
+          key: key,
+          id: id,
+          classes: classes,
+          styles: styles,
+          attributes: attributes,
+          events: events,
+          children: children,
         );
 }
 
 extension SimplifiedStyle on DomComponent {
-  Component style({
-  /// The overall styles to be applied.
-  Styles? styles,
+  Component props({
+    /// The overall styles to be applied.
+    Styles? styles,
 
-  /// The padding inside the component.
-  EdgeInsets? padding,
+    /// The padding inside the component.
+    EdgeInsets? padding,
 
-  /// The background color of the component.
-  Color? bgColor,
+    /// The background color of the component.
+    Color? bgColor,
 
-  /// The text color of the component.
-  Color? textColor,
+    /// The text color of the component.
+    Color? textColor,
 
-  /// The background attachment property.
-  BackgroundAttachment? bgAttachment,
+    /// The background attachment property.
+    BackgroundAttachment? bgAttachment,
 
-  /// The background clip property.
-  BackgroundClip? bgClip,
+    /// The background clip property.
+    BackgroundClip? bgClip,
 
-  /// The background image style.
-  ImageStyle? bgImage,
+    /// The background image style.
+    ImageStyle? bgImage,
 
-  /// The background origin property.
-  BackgroundOrigin? bgOrigin,
+    /// The background origin property.
+    BackgroundOrigin? bgOrigin,
 
-  /// The background position property.
-  BackgroundPosition? bgPosition,
+    /// The background position property.
+    BackgroundPosition? bgPosition,
 
-  /// The background repeat property.
-  BackgroundRepeat? bgRepeat,
+    /// The background repeat property.
+    BackgroundRepeat? bgRepeat,
 
-  /// The background size property.
-  BackgroundSize? bgSize,
+    /// The background size property.
+    BackgroundSize? bgSize,
 
-  /// The margin outside the component.
-  EdgeInsets? margin,
+    /// The margin outside the component.
+    EdgeInsets? margin,
 
-  /// The display property of the component.
-  Display? display,
+    /// The display property of the component.
+    Display? display,
 
-  /// The box-sizing property.
-  BoxSizing? boxSizing,
+    /// The box-sizing property.
+    BoxSizing? boxSizing,
 
-  /// The width of the component.
-  Unit? width,
+    /// The width of the component.
+    Unit? width,
 
-  /// The height of the component.
-  Unit? height,
+    /// The height of the component.
+    Unit? height,
 
-  /// The minimum width of the component.
-  Unit? minWidth,
+    /// The minimum width of the component.
+    Unit? minWidth,
 
-  /// The maximum width of the component.
-  Unit? maxWidth,
+    /// The maximum width of the component.
+    Unit? maxWidth,
 
-  /// The minimum height of the component.
-  Unit? minHeight,
+    /// The minimum height of the component.
+    Unit? minHeight,
 
-  /// The maximum height of the component.
-  Unit? maxHeight,
+    /// The maximum height of the component.
+    Unit? maxHeight,
 
-  /// The border of the component.
-  Border? border,
+    /// The border of the component.
+    Border? border,
 
-  /// The border radius of the component.
-  BorderRadius? radius,
+    /// The border radius of the component.
+    BorderRadius? radius,
 
-  /// The outline of the component.
-  Outline? outline,
+    /// The outline of the component.
+    Outline? outline,
 
-  /// The overflow property of the component.
-  Overflow? overflow,
+    /// The overflow property of the component.
+    Overflow? overflow,
 
-  /// The visibility property of the component.
-  Visibility? visibility,
+    /// The visibility property of the component.
+    Visibility? visibility,
 
-  /// The position property of the component.
-  Position? position,
+    /// The position property of the component.
+    Position? position,
 
-  /// The opacity of the component.
-  double? opacity,
+    /// The opacity of the component.
+    double? opacity,
 
-  /// The transform property of the component.
-  Transform? transform,
+    /// The transform property of the component.
+    Transform? transform,
 
-  /// The box shadow of the component.
-  BoxShadow? shadow,
+    /// The box shadow of the component.
+    BoxShadow? shadow,
 
-  /// The cursor property of the component.
-  Cursor? cursor,
+    /// The cursor property of the component.
+    Cursor? cursor,
 
-  /// The transition property of the component.
-  Transition? transition,
+    /// The transition property of the component.
+    Transition? transition,
 
-  /// The flex direction property.
-  FlexDirection? direction,
+    /// The flex direction property.
+    FlexDirection? direction,
 
-  /// The flex wrap property.
-  FlexWrap? flexWrap,
+    /// The flex wrap property.
+    FlexWrap? flexWrap,
 
-  /// The justify content property.
-  JustifyContent? justifyContent,
+    /// The justify content property.
+    JustifyContent? justifyContent,
 
-  /// The align items property.
-  AlignItems? alignItems,
+    /// The align items property.
+    AlignItems? alignItems,
 
-  /// The flex property.
-  Flex? flex,
+    /// The flex property.
+    Flex? flex,
 
-  /// The flex order property.
-  int? flexOrder,
+    /// The flex order property.
+    int? flexOrder,
 
-  /// The align self property.
-  AlignSelf? alignSelf,
+    /// The align self property.
+    AlignSelf? alignSelf,
 
-  /// The grid template property.
-  GridTemplate? gridTemplate,
+    /// The grid template property.
+    GridTemplate? gridTemplate,
 
-  /// The grid gap property.
-  GridGap? gap,
+    /// The grid gap property.
+    GridGap? gap,
 
-  /// The auto rows property for grid layout.
-  List<TrackSize>? autoRows,
+    /// The auto rows property for grid layout.
+    List<TrackSize>? autoRows,
 
-  /// The auto columns property for grid layout.
-  List<TrackSize>? autoColumns,
+    /// The auto columns property for grid layout.
+    List<TrackSize>? autoColumns,
 
-  /// The grid placement property.
-  GridPlacement? gridPlacement,
+    /// The grid placement property.
+    GridPlacement? gridPlacement,
 
-  /// The list style property.
-  ListStyle? listStyle,
+    /// The list style property.
+    ListStyle? listStyle,
 
-  /// The list image style property.
-  ImageStyle? listImageStyle,
+    /// The list image style property.
+    ImageStyle? listImageStyle,
 
-  /// The list style position property.
-  ListStylePosition? listStylePosition,
+    /// The list style position property.
+    ListStylePosition? listStylePosition,
 
-  /// The raw CSS properties.
-  Map<String, String>? rawCss,
+    /// The raw CSS properties.
+    Map<String, String>? rawCss,
 
-  /// The text align property.
-  TextAlign? textAlign,
+    /// The text align property.
+    TextAlign? textAlign,
 
-  /// The font family property.
-  FontFamily? fontFamily,
+    /// The font family property.
+    FontFamily? fontFamily,
 
-  /// The font style property.
-  FontStyle? fontStyle,
+    /// The font style property.
+    FontStyle? fontStyle,
 
-  /// The font size property.
-  Unit? fontSize,
+    /// The font size property.
+    Unit? fontSize,
 
-  /// The font weight property.
-  FontWeight? fontWeight,
+    /// The font weight property.
+    FontWeight? fontWeight,
 
-  /// The text decoration property.
-  TextDecoration? textDecoration,
+    /// The text decoration property.
+    TextDecoration? textDecoration,
 
-  /// The text transform property.
-  TextTransform? textTransform,
+    /// The text transform property.
+    TextTransform? textTransform,
 
-  /// The text indent property.
-  Unit? textIndent,
+    /// The text indent property.
+    Unit? textIndent,
 
-  /// The letter spacing property.
-  Unit? letterSpacing,
+    /// The letter spacing property.
+    Unit? letterSpacing,
 
-  /// The word spacing property.
-  Unit? wordSpacing,
+    /// The word spacing property.
+    Unit? wordSpacing,
 
-  /// The text line height property.
-  Unit? textLineHeight,
+    /// The text line height property.
+    Unit? textLineHeight,
 
-  /// The text shadow property.
-  TextShadow? textShadow,
+    /// The text shadow property.
+    TextShadow? textShadow,
 
-  /// The text overflow property.
-  TextOverflow? textOverflow,
+    /// The text overflow property.
+    TextOverflow? textOverflow,
 
-  /// The white space property.
-  WhiteSpace? textWhiteSpace,
-
+    /// The white space property.
+    WhiteSpace? textWhiteSpace,
   }) {
     return _copyWith(
       styles: Styles.combine(

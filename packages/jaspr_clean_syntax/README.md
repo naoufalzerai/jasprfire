@@ -18,6 +18,51 @@ dart pub add jaspr_clean_syntax
 
 ---
 
+## Example 
+
+```dart 
+import 'package:jaspr/jaspr.dart';
+import '../constants/theme.dart';
+
+class MyHeader extends StatelessComponent {
+  const MyHeader({super.key});
+
+  @override
+  Iterable<Component> build(BuildContext context) sync* {
+    var activePath = context.binding.currentUri.path;
+
+    yield Div([
+      Header([
+        Div(
+          [
+            Avatar(),
+            NavOptions(activePath),
+            ResumeButton(),
+          ],
+        ).props(styles: style),
+      ]).props(styles: headerStyles),
+    ]).props(
+      position: Position.sticky(top: 0.px),
+      bgColor: sectionColor,
+    );
+  }
+}
+
+final style = Styles.flexbox(
+  justifyContent: JustifyContent.spaceBetween,
+  alignItems: AlignItems.center,
+);
+
+final headerStyles = Styles.box(
+  maxWidth: 1024.px,
+  width: 100.percent,
+  padding: EdgeInsets.symmetric(vertical: 1.em),
+).raw({
+  'margin': '0 auto',
+});
+
+```
+
 ## Continuous Integration 🤖
 
 Jaspr Clean Syntax comes with a built-in [GitHub Actions workflow][github_actions_link] powered by [Very Good Workflows][very_good_workflows_link] but you can also add your preferred CI/CD solution.
